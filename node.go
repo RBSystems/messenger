@@ -222,7 +222,6 @@ func (n *Node) writePump() {
 func (n *Node) Write(message Message) error {
 	n.writeQueue <- message
 	return nil
-
 }
 
 func (n *Node) Read() Message {
@@ -230,5 +229,4 @@ func (n *Node) Read() Message {
 }
 
 func (n *Node) Close() {
-
 }
