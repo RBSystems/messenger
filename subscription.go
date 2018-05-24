@@ -7,7 +7,6 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/gorilla/websocket"
-	"github.com/labstack/echo"
 )
 
 const (
@@ -35,11 +34,11 @@ type Subscription struct {
 	send   chan Message
 }
 
-func ListenForNodes(router *Router, context echo.Context) error {
-	conn, err := upgrader.Upgrade(context.Response().Writer, context.Request(), nil)
+func ListenForNodes(router *Router, resp http.ResponseWriter, req *http.Request) error {
+	conn, err := upgrader.Upgrade(resp, req, nil)
 	if err != nil {
 		log.Println(err)
-		return context.JSON(http.StatusInternalServerError, err.Error())
+		return err
 	}
 
 	subscription := &Subscription{router: router, conn: conn, send: make(chan Message, 1024)}
