@@ -55,7 +55,7 @@ func (n *Node) ConnectToRouter(address string) error {
 	// open connection with router
 	err := n.openConnection()
 	if err != nil {
-		log.Printf(color.YellowString("Opening connection failed, retrying..."))
+		log.Printf(color.YellowString("Opening connection to router failed, retrying..."))
 
 		n.readDone <- true
 		n.writeDone <- true
@@ -130,7 +130,7 @@ func (n *Node) retryConnection() {
 	err := n.openConnection()
 
 	for err != nil {
-		log.Printf(color.HiMagentaString("[retry] Retry failed, trying again in 3 seconds."))
+		log.Printf(color.HiMagentaString("[retry] Retry failed, trying to connect to %s again in 3 seconds.", n.routerAddress))
 		time.Sleep(retryInterval)
 		err = n.openConnection()
 	}
