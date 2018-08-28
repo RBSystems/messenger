@@ -30,6 +30,7 @@ func NewRouter() *Router {
 }
 
 func (r *Router) SetMessageLogs(value bool) {
+	log.Printf(color.HiYellowString("Setting message logs to: %v", value))
 	r.showMessageLogs = value
 }
 
@@ -118,7 +119,9 @@ func (r *Router) route(message Message) {
 
 		for routerConn := range r.routerConnections {
 			if r.showMessageLogs {
-				log.Printf(color.HiYellowString("sending to router %v", routerConn.Node.conn.RemoteAddr().String()))
+				if routerConn.Node.conn != nil {
+					log.Printf(color.HiYellowString("sending to router %v", routerConn.Node.conn.RemoteAddr().String()))
+				}
 			}
 			routerConn.WritePassthrough(Message{Body: message.Body, Header: newHeader})
 		}
